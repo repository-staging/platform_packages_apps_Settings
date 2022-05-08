@@ -20,8 +20,10 @@
     android:title="@string/privacy_settings_title">
 
     <!-- Backup settings provided by the backup transport or the default settings -->
-    <Preference
-        android:key="backup_settings" />
+    <com.android.settings.widget.PrimarySwitchPreference
+        android:key="backup_settings"
+        android:fragment="com.android.settings.backup.BackupSettingsFragment"
+        settings:controller="com.android.settings.backup.BackupSettingsPreferenceController"/>
 
     <!-- Backup settings provided by the manufacturer -->
     <Preference
