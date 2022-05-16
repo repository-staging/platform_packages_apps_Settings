@@ -13737,4 +13737,7 @@
 
     <string name="screenshot_timestamp_exif_title">Save screenshot timestamp to EXIF</string>
     <string name="screenshot_timestamp_exif_summary">Enables adding a timestamp to screenshot EXIF metadata</string>
+
+    <string name="backup_app_toggle_title">Enable Backup App</string>
+    <string name="backup_app_toggle_summary">Enables the backup app used in a user profile</string>
 </resources>
