@@ -33,7 +33,6 @@ public class WebActionCategoryController extends BasePreferenceController {
     }
 
     public static boolean isDisableWebActions(Context context) {
-        return Settings.Global.getInt(context.getContentResolver(),
-                Settings.Global.ENABLE_EPHEMERAL_FEATURE, 1) == 0;
+        return true;
     }
 }
