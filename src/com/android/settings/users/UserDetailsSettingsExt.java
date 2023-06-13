@@ -26,6 +26,7 @@ class UserDetailsSettingsExt
 
     // Add preference fields here
     private Preference appInstallsPref;
+    private SwitchPreference runInBackgroundPref;
 
     UserDetailsSettingsExt(PreferenceFragmentCompat prefFragment, UserRestrictions userRestrictions) {
         this.prefFragment = prefFragment;
@@ -36,6 +37,8 @@ class UserDetailsSettingsExt
     private void initializePreferences() {
         if (userRestrictions.userManager.isSystemUser()) {
             if (!userRestrictions.userInfo.isGuest()) {
+                runInBackgroundPref = initializeSwitchPreference(R.string.user_run_in_background_pref,
+                        R.string.user_run_in_background_title, R.drawable.ic_sync, null);
             }
             appInstallsPref = initializePreference(R.string.user_app_install_pref,
                     R.string.user_app_install_title, R.drawable.ic_settings_install,  null);
@@ -46,6 +49,9 @@ class UserDetailsSettingsExt
     void updatePreferences() {
         if (appInstallsPref != null) {
             appInstallsPref.setSummary(UserAppsInstallSettings.getDescription(prefFragment.requireContext(), userRestrictions));
+        }
+        if (runInBackgroundPref != null) {
+            runInBackgroundPref.setChecked(!userRestrictions.isSet(UserManager.DISALLOW_RUN_IN_BACKGROUND));
         }
     }
 
@@ -83,6 +89,10 @@ class UserDetailsSettingsExt
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object res) {
+        if (preference == runInBackgroundPref) {
+            userRestrictions.set(UserManager.DISALLOW_RUN_IN_BACKGROUND, !((boolean) res));
+            return true;
+        }
         return false;
     }
 
