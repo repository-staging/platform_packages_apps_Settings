@@ -177,28 +177,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
             }
             enableCallsAndSms(false);
         } else if (preference == mInstallAppsPref) {
-            if (mUserInfo.isGuest()) {
-                mDefaultGuestRestrictions.putBoolean(UserManager.DISALLOW_INSTALL_APPS, (Boolean) newValue);
-                mUserManager.setDefaultGuestRestrictions(mDefaultGuestRestrictions);
-
-                // Update the guest's restrictions, if there is a guest
-                // TODO: Maybe setDefaultGuestRestrictions() can internally just set the restrictions
-                // on any existing guest rather than do it here with multiple Binder calls.
-                List<UserInfo> users = mUserManager.getUsers(true);
-                for (UserInfo user: users) {
-                    if (user.isGuest()) {
-                        UserHandle userHandle = UserHandle.of(user.id);
-                        for (String key : mDefaultGuestRestrictions.keySet()) {
-                            mUserManager.setUserRestriction(
-                                    key, mDefaultGuestRestrictions.getBoolean(key), userHandle);
-                        }
-                    }
-                }
-            } else {
-                UserHandle userHandle = UserHandle.of(mUserInfo.id);
-                mUserManager.setUserRestriction(UserManager.DISALLOW_INSTALL_APPS, (Boolean) newValue,
-                        userHandle);
-            }
+            setUserRestriction(UserManager.DISALLOW_INSTALL_APPS, (boolean) newValue);
         } else if (preference == mInstallAppsUnknownSourcesPref) {
             if (mUserInfo.isGuest()) {
                 mDefaultGuestRestrictions.putBoolean(UserManager.DISALLOW_INSTALL_UNKNOWN_SOURCES, (Boolean) newValue);
