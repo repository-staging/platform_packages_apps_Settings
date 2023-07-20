@@ -25,6 +25,7 @@ class UserDetailsSettingsExt
     private final UserRestrictions userRestrictions;
 
     // Add preference fields here
+    private Preference appInstallsPref;
 
     UserDetailsSettingsExt(PreferenceFragmentCompat prefFragment, UserRestrictions userRestrictions) {
         this.prefFragment = prefFragment;
@@ -36,11 +37,16 @@ class UserDetailsSettingsExt
         if (userRestrictions.userManager.isSystemUser()) {
             if (!userRestrictions.userInfo.isGuest()) {
             }
+            appInstallsPref = initializePreference(R.string.user_app_install_pref,
+                    R.string.user_app_install_title, R.drawable.ic_settings_install,  null);
         }
         updatePreferences();
     }
 
     void updatePreferences() {
+        if (appInstallsPref != null) {
+            appInstallsPref.setSummary(UserAppsInstallSettings.getDescription(prefFragment.requireContext(), userRestrictions));
+        }
     }
 
     private SwitchPreference initializeSwitchPreference(final int keyRes, final int titleRes,
@@ -82,6 +88,10 @@ class UserDetailsSettingsExt
 
     @Override
     public boolean onPreferenceClick(Preference preference) {
+        if (preference == appInstallsPref) {
+            UserAppsInstallSettings.launch(appInstallsPref, userRestrictions.userInfo.id);
+            return true;
+        }
         return false;
     }
 }
