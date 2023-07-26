@@ -128,6 +128,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
             mRemoveUserPref.setEnabled((mUserInfo.flags & UserInfo.FLAG_INITIALIZED) != 0);
         }
         userDetailsSettingsExt.updatePreferences();
+        mAppCopyingPref.setEnabled(!userRestrictions.isSet(UserManager.DISALLOW_INSTALL_APPS));
     }
 
     @Override
