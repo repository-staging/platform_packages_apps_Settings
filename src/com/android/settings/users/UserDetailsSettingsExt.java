@@ -27,6 +27,7 @@ class UserDetailsSettingsExt
     // Add preference fields here
     private Preference appInstallsPref;
     private SwitchPreference runInBackgroundPref;
+    private SwitchPreference allowConfigPrivateDnsPref;
 
     UserDetailsSettingsExt(PreferenceFragmentCompat prefFragment, UserRestrictions userRestrictions) {
         this.prefFragment = prefFragment;
@@ -40,6 +41,8 @@ class UserDetailsSettingsExt
                 runInBackgroundPref = initializeSwitchPreference(R.string.user_run_in_background_pref,
                         R.string.user_run_in_background_title, R.drawable.ic_sync, null);
             }
+            allowConfigPrivateDnsPref = initializeSwitchPreference(R.string.user_config_private_dns_pref,
+                    R.string.user_config_private_dns_title, null, SWITCH_USER_PREF_ORDER_AFTER + 1);
             appInstallsPref = initializePreference(R.string.user_app_install_pref,
                     R.string.user_app_install_title, R.drawable.ic_settings_install,  null);
         }
@@ -52,6 +55,9 @@ class UserDetailsSettingsExt
         }
         if (runInBackgroundPref != null) {
             runInBackgroundPref.setChecked(!userRestrictions.isSet(UserManager.DISALLOW_RUN_IN_BACKGROUND));
+        }
+        if (allowConfigPrivateDnsPref != null) {
+            allowConfigPrivateDnsPref.setChecked(!userRestrictions.isSet(UserManager.DISALLOW_CONFIG_PRIVATE_DNS));
         }
     }
 
@@ -91,6 +97,10 @@ class UserDetailsSettingsExt
     public boolean onPreferenceChange(Preference preference, Object res) {
         if (preference == runInBackgroundPref) {
             userRestrictions.set(UserManager.DISALLOW_RUN_IN_BACKGROUND, !((boolean) res));
+            return true;
+        }
+        if (preference == allowConfigPrivateDnsPref) {
+            userRestrictions.set(UserManager.DISALLOW_CONFIG_PRIVATE_DNS, !((boolean) res));
             return true;
         }
         return false;
