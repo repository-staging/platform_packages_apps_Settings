@@ -66,7 +66,6 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
 
     private static final String KEY_APP_INSTALLS = "app_installs";
     private static final String KEY_RUN_IN_BACKGROUND = "allow_run_in_background";
-    private static final String KEY_PRIVATE_DNS = "allow_private_dns";
 
     /** Integer extra containing the userId to manage */
     static final String EXTRA_USER_ID = "user_id";
@@ -98,7 +97,6 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
     Preference mRemoveUserPref;
     Preference mAppsInstallsPref;
     private SwitchPreference mRunInBackgroundPref;
-    private SwitchPreference mAllowPrivateDns;
 
     @VisibleForTesting
     /** The user being studied (not the user doing the studying). */
@@ -187,9 +185,6 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
         }
         if (preference == mRunInBackgroundPref) {
             userRestrictions.set(UserManager.DISALLOW_RUN_IN_BACKGROUND, !((boolean) newValue));
-            return true;
-        } else if (preference == mAllowPrivateDns) {
-            userRestrictions.set(UserManager.DISALLOW_CONFIG_PRIVATE_DNS, !((boolean) newValue));
             return true;
         }
         return true;
@@ -297,7 +292,6 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
         mAppCopyingPref = findPreference(KEY_APP_COPYING);
         mAppsInstallsPref = findPreference(KEY_APP_INSTALLS);
         mRunInBackgroundPref = findPreference(KEY_RUN_IN_BACKGROUND);
-        mAllowPrivateDns = findPreference(KEY_PRIVATE_DNS);
 
         mSwitchUserPref.setTitle(
                 context.getString(com.android.settingslib.R.string.user_switch_to_user,
@@ -318,7 +312,6 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
             removePreference(KEY_APP_COPYING);
             removePreference(KEY_APP_INSTALLS);
             removePreference(KEY_RUN_IN_BACKGROUND);
-            removePreference(KEY_PRIVATE_DNS);
         } else {
             if (!Utils.isVoiceCapable(context)) { // no telephony
                 removePreference(KEY_ENABLE_TELEPHONY);
@@ -351,13 +344,10 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
                     removePreference(KEY_APP_COPYING);
                 }
                 removePreference(KEY_RUN_IN_BACKGROUND);
-                removePreference(KEY_PRIVATE_DNS);
             } else {
                 mRemoveUserPref.setTitle(R.string.user_remove_user);
                 mRunInBackgroundPref.setChecked(!userRestrictions.isSet(
                         UserManager.DISALLOW_RUN_IN_BACKGROUND));
-                mAllowPrivateDns.setChecked(!userRestrictions.isSet(
-                        UserManager.DISALLOW_CONFIG_PRIVATE_DNS));
             }
             if (RestrictedLockUtilsInternal.hasBaseUserRestriction(context,
                     UserManager.DISALLOW_REMOVE_USER, UserHandle.myUserId())) {
@@ -370,7 +360,6 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
             mAppAndContentAccessPref.setOnPreferenceClickListener(this);
             mAppCopyingPref.setOnPreferenceClickListener(this);
             mRunInBackgroundPref.setOnPreferenceChangeListener(this);
-            mAllowPrivateDns.setOnPreferenceChangeListener(this);
         }
     }
 
