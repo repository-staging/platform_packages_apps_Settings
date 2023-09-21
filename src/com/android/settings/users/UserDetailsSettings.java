@@ -65,7 +65,6 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
     private static final String KEY_APP_COPYING = "app_copying";
 
     private static final String KEY_APP_INSTALLS = "app_installs";
-    private static final String KEY_RUN_IN_BACKGROUND = "allow_run_in_background";
 
     /** Integer extra containing the userId to manage */
     static final String EXTRA_USER_ID = "user_id";
@@ -96,7 +95,6 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
     @VisibleForTesting
     Preference mRemoveUserPref;
     Preference mAppsInstallsPref;
-    private SwitchPreference mRunInBackgroundPref;
 
     @VisibleForTesting
     /** The user being studied (not the user doing the studying). */
@@ -175,18 +173,12 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
 
     @Override
     public boolean onPreferenceChange(Preference preference, Object newValue) {
-        if (preference == mPhonePref) {
-            if (Boolean.TRUE.equals(newValue)) {
-                showDialog(mUserInfo.isGuest() ? DIALOG_CONFIRM_ENABLE_CALLING
-                        : DIALOG_CONFIRM_ENABLE_CALLING_AND_SMS);
-                return false;
-            }
-            enableCallsAndSms(false);
+        if (Boolean.TRUE.equals(newValue)) {
+            showDialog(mUserInfo.isGuest() ? DIALOG_CONFIRM_ENABLE_CALLING
+                    : DIALOG_CONFIRM_ENABLE_CALLING_AND_SMS);
+            return false;
         }
-        if (preference == mRunInBackgroundPref) {
-            userRestrictions.set(UserManager.DISALLOW_RUN_IN_BACKGROUND, !((boolean) newValue));
-            return true;
-        }
+        enableCallsAndSms(false);
         return true;
     }
 
@@ -291,7 +283,6 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
         mAppAndContentAccessPref = findPreference(KEY_APP_AND_CONTENT_ACCESS);
         mAppCopyingPref = findPreference(KEY_APP_COPYING);
         mAppsInstallsPref = findPreference(KEY_APP_INSTALLS);
-        mRunInBackgroundPref = findPreference(KEY_RUN_IN_BACKGROUND);
 
         mSwitchUserPref.setTitle(
                 context.getString(com.android.settingslib.R.string.user_switch_to_user,
@@ -311,7 +302,6 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
             removePreference(KEY_APP_AND_CONTENT_ACCESS);
             removePreference(KEY_APP_COPYING);
             removePreference(KEY_APP_INSTALLS);
-            removePreference(KEY_RUN_IN_BACKGROUND);
         } else {
             if (!Utils.isVoiceCapable(context)) { // no telephony
                 removePreference(KEY_ENABLE_TELEPHONY);
@@ -343,11 +333,8 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
                 if (!SHOW_APP_COPYING_PREF) {
                     removePreference(KEY_APP_COPYING);
                 }
-                removePreference(KEY_RUN_IN_BACKGROUND);
             } else {
                 mRemoveUserPref.setTitle(R.string.user_remove_user);
-                mRunInBackgroundPref.setChecked(!userRestrictions.isSet(
-                        UserManager.DISALLOW_RUN_IN_BACKGROUND));
             }
             if (RestrictedLockUtilsInternal.hasBaseUserRestriction(context,
                     UserManager.DISALLOW_REMOVE_USER, UserHandle.myUserId())) {
@@ -359,7 +346,6 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
             mPhonePref.setOnPreferenceChangeListener(this);
             mAppAndContentAccessPref.setOnPreferenceClickListener(this);
             mAppCopyingPref.setOnPreferenceClickListener(this);
-            mRunInBackgroundPref.setOnPreferenceChangeListener(this);
         }
     }
 
