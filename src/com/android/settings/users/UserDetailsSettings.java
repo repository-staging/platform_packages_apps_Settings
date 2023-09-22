@@ -98,6 +98,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
     /** The user being studied (not the user doing the studying). */
     UserInfo mUserInfo;
     private UserRestrictions userRestrictions;
+    private UserDetailsSettingsExt userDetailsSettingsExt;
 
     @Override
     public int getMetricsCategory() {
@@ -126,6 +127,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
         if (mGuestUserAutoCreated) {
             mRemoveUserPref.setEnabled((mUserInfo.flags & UserInfo.FLAG_INITIALIZED) != 0);
         }
+        userDetailsSettingsExt.updatePreferences();
     }
 
     @Override
@@ -268,6 +270,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
                 arguments.getBoolean(AppRestrictionsFragment.EXTRA_NEW_USER, false);
         mUserInfo = mUserManager.getUserInfo(userId);
         userRestrictions = new UserRestrictions(mUserManager, mUserInfo);
+        userDetailsSettingsExt = new UserDetailsSettingsExt(this, userRestrictions);
 
         mSwitchUserPref = findPreference(KEY_SWITCH_USER);
         mPhonePref = findPreference(KEY_ENABLE_TELEPHONY);
