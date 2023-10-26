@@ -178,6 +178,7 @@ class DuressPasswordUi : AppCompatActivity() {
         setTheme(com.google.android.material.R.style.Theme_Material3_DayNight_NoActionBar)
         com.google.android.material.color.DynamicColors.applyToActivityIfAvailable(this)
         window.navigationBarColor = android.graphics.Color.TRANSPARENT
+        window.statusBarColor = android.graphics.Color.TRANSPARENT
         setContentView(R.layout.duress_password_ui)
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE)
         window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
@@ -224,6 +225,17 @@ class DuressPasswordUi : AppCompatActivity() {
                     .setUserId(android.os.UserHandle.myUserId())
                     .show()
         }
+    }
+
+    override fun onResume() {
+        super.onResume()
+        val mask = android.view.WindowInsetsController.APPEARANCE_LIGHT_STATUS_BARS or
+                android.view.WindowInsetsController.APPEARANCE_LIGHT_NAVIGATION_BARS
+        findViewById<View>(R.id.duress_root).windowInsetsController?.setSystemBarsAppearance(
+            if ((resources.configuration.uiMode and
+                        android.content.res.Configuration.UI_MODE_NIGHT_MASK)
+                == android.content.res.Configuration.UI_MODE_NIGHT_YES) 0 else mask, mask
+        )
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
