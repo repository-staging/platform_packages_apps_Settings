@@ -219,6 +219,7 @@ public class AppCopyFragment extends SettingsPreferenceFragment {
                 mAppListChanged = true;
                 return true;
             });
+            AppCopyFragmentExtUtils.maybeModifySelectableAppInfoPref(this, p, app);
 
             mAppList.addPreference(p);
         }
