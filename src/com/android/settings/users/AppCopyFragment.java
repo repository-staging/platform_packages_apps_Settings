@@ -196,6 +196,7 @@ public class AppCopyFragment extends SettingsPreferenceFragment {
         }
         mHelper.resetSelectedPackages();
         mAppList.removeAll();
+        AppCopyFragmentExtUtils.maybeModifyAppListGroupPref(this, mAppList);
         for (AppCopyHelper.SelectableAppInfo app : mHelper.getVisibleApps()) {
             if (app.packageName == null) continue;
 
