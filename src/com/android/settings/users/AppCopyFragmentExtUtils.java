@@ -4,11 +4,18 @@ import android.content.pm.UserInfo;
 import android.os.UserHandle;
 import android.os.UserManager;
 
+import androidx.preference.PreferenceGroup;
+
 import com.android.settings.R;
 import com.android.settingslib.users.AppCopyHelper;
 import com.android.settingslib.widget.AppSwitchPreference;
 
 final class AppCopyFragmentExtUtils {
+
+    static void maybeModifyAppListGroupPref(
+            AppCopyFragment appCopyFragment, PreferenceGroup appListGroupPref) {
+        appListGroupPref.setOrderingAsAdded(true);
+    }
 
     static void maybeModifySelectableAppInfoPref(
             AppCopyFragment appCopyFragment,
