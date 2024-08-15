@@ -180,7 +180,12 @@ private fun ApplicationInfo.shouldShowAccessRestrictedSettings(context: Context)
     return if (android.permission.flags.Flags.enhancedConfirmationModeApisEnabled()
             && android.security.Flags.extendEcmToAllSettings()) {
         val manager = context.getSystemService(EnhancedConfirmationManager::class.java)!!
-        manager.isClearRestrictionAllowed(packageName)
+        try {
+            manager.isClearRestrictionAllowed(packageName)
+        } catch (e: android.content.pm.PackageManager.NameNotFoundException) {
+            android.util.Log.e("AppInfoSettingsMoreOptions", "", e)
+            false
+        }
     } else {
         context.appOpsManager.noteOpNoThrow(
             AppOpsManager.OP_ACCESS_RESTRICTED_SETTINGS, uid, packageName, null, null
