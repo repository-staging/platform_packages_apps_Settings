@@ -7,17 +7,17 @@ import android.os.UserManager;
 
 import java.util.List;
 
-final class UserRestrictions {
+public final class UserRestrictions {
 
-    final UserManager userManager;
-    final UserInfo userInfo;
+    private final UserManager userManager;
+    public final UserInfo userInfo;
 
-    UserRestrictions(UserManager userManager, UserInfo userInfo) {
+    public UserRestrictions(UserManager userManager, UserInfo userInfo) {
         this.userManager = userManager;
         this.userInfo = userInfo;
     }
 
-    boolean isSet(String restrictionKey) {
+    public boolean isSet(String restrictionKey) {
         final boolean isSetFromUser = userManager.hasUserRestriction(restrictionKey, userInfo.getUserHandle());
         if (userInfo.isGuest()) {
             return isSetFromUser || userManager.getDefaultGuestRestrictions().getBoolean(restrictionKey);
@@ -26,7 +26,7 @@ final class UserRestrictions {
         return isSetFromUser;
     }
 
-    void set(String restrictionKey, boolean enableRestriction) {
+    public void set(String restrictionKey, boolean enableRestriction) {
         if (userInfo.isGuest()) {
             Bundle defaultGuestRestrictions = userManager.getDefaultGuestRestrictions();
             defaultGuestRestrictions.putBoolean(restrictionKey, enableRestriction);
