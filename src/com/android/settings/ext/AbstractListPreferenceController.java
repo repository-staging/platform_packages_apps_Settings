@@ -10,6 +10,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.UserHandle;
+import android.os.UserManager;
 import android.text.TextUtils;
 import android.text.format.DateUtils;
 import android.util.SparseIntArray;
@@ -238,5 +239,25 @@ public abstract class AbstractListPreferenceController extends BasePreferenceCon
      */
     protected boolean isCredentialConfirmationRequired() {
         return false;
+    }
+
+    /**
+     * Returns which user to check for credential confirmation,
+     * if {@link #isCredentialConfirmationRequired()} is set to true.
+     */
+    protected int whichUserIdToCheckCredentialConfirmation() {
+        return mContext.getUserId();
+    }
+
+    final int whichUserIdToCheckCredentialConfirmationInner() {
+        final int suppliedUserId = whichUserIdToCheckCredentialConfirmation();
+        UserManager userManager = mContext.getSystemService(UserManager.class);
+        if (userManager != null) {
+            if (userManager.getUserProfiles().contains(UserHandle.of(suppliedUserId))) {
+                return suppliedUserId;
+            }
+        }
+
+        return mContext.getUserId();
     }
 }

@@ -94,6 +94,7 @@ public class RadioButtonPickerFragment2 extends RadioButtonPickerFragment {
         var b = new ChooseLockSettingsHelper.Builder(requireActivity());
         b.setActivityResultLauncher(credentialConfirmationLauncher);
         b.setForegroundOnly(true);
+        b.setUserId(prefController.whichUserIdToCheckCredentialConfirmationInner());
         b.show();
     }
 
@@ -160,7 +161,7 @@ public class RadioButtonPickerFragment2 extends RadioButtonPickerFragment {
                 .getSecurityFeatureProvider()
                 .getLockPatternUtils(ctx);
 
-            if (lpu.isSecure(ctx.getUserId())) {
+            if (lpu.isSecure(prefController.whichUserIdToCheckCredentialConfirmationInner())) {
                 runAfterCredentialConfirmation(() -> prefController.setValue(Integer.parseInt(key)));
                 return false;
             }
