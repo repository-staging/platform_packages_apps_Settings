@@ -223,4 +223,6 @@ and doesn't disallow other profiles making their clipboard content accessible to
 "
     </string>
 
+    <string name="private_space_ext_configure_user">Configure private space</string>
+
 </resources>

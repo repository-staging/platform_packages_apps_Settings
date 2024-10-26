@@ -67,6 +67,13 @@
         android:title="@string/private_space_category_system">
 
         <Preference
+            android:key="private_space_ext_configure_user"
+            android:title="@string/private_space_ext_configure_user"
+            settings:fragment="com.android.settings.privatespace.users.PrivateSpaceUserRestrictionsSettings"
+            settings:controller="com.android.settings.privatespace.users.PrivateSpaceUserRestrictionsPrefController"
+            settings:searchable="false" />
+
+        <Preference
             android:key="private_space_delete"
             android:title="@string/private_space_delete_title"
             settings:controller="com.android.settings.privatespace.delete.DeletePrivateSpaceController"
