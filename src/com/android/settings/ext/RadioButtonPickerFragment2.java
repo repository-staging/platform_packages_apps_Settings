@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.UserHandle;
+import android.os.UserManager;
 
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultLauncher;
@@ -80,7 +82,7 @@ public class RadioButtonPickerFragment2 extends RadioButtonPickerFragment {
 
     private Runnable onAfterCredentialConfirmed;
 
-    private void runAfterCredentialConfirmation(Runnable runnable) {
+    private void runAfterCredentialConfirmation(Runnable runnable, int userId) {
         if (userCredentialConfirmed) {
             throw new IllegalStateException();
         }
@@ -94,6 +96,7 @@ public class RadioButtonPickerFragment2 extends RadioButtonPickerFragment {
         var b = new ChooseLockSettingsHelper.Builder(requireActivity());
         b.setActivityResultLauncher(credentialConfirmationLauncher);
         b.setForegroundOnly(true);
+        b.setUserId(userId);
         b.show();
     }
 
@@ -160,8 +163,31 @@ public class RadioButtonPickerFragment2 extends RadioButtonPickerFragment {
                 .getSecurityFeatureProvider()
                 .getLockPatternUtils(ctx);
 
-            if (lpu.isSecure(ctx.getUserId())) {
-                runAfterCredentialConfirmation(() -> prefController.setValue(Integer.parseInt(key)));
+            final int userId;
+            int ctxUserId = ctx.getUserId();
+            int userIdToCheckCredentialsFromPrefCtrl =
+                    prefController.whichUserIdToCheckCredentialConfirmation();
+
+            if (ctxUserId == userIdToCheckCredentialsFromPrefCtrl) {
+                userId = ctxUserId;
+            } else {
+                UserManager userManager = ctx.getSystemService(UserManager.class);
+                if (userManager == null) {
+                    userId = ctxUserId;
+                } else if (userManager.getProfileParent(ctxUserId) != null) {
+                    userId = ctxUserId;
+                } else if (!userManager.getUserProfiles().contains(
+                        UserHandle.of(userIdToCheckCredentialsFromPrefCtrl))) {
+                    userId = ctxUserId;
+                } else if (!lpu.isSeparateProfileChallengeEnabled(
+                        userIdToCheckCredentialsFromPrefCtrl)) {
+                    userId = ctxUserId;
+                } else {
+                    userId = userIdToCheckCredentialsFromPrefCtrl;
+                }
+            }
+            if (lpu.isSecure(userId)) {
+                runAfterCredentialConfirmation(() -> prefController.setValue(Integer.parseInt(key)), userId);
                 return false;
             }
         }

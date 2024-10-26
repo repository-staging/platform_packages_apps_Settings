@@ -239,4 +239,12 @@ public abstract class AbstractListPreferenceController extends BasePreferenceCon
     protected boolean isCredentialConfirmationRequired() {
         return false;
     }
+
+    /**
+     * Returns which user to check for credential confirmation,
+     * if {@link #isCredentialConfirmationRequired()} is set to true.
+     */
+    protected int whichUserIdToCheckCredentialConfirmation() {
+        return mContext.getUserId();
+    }
 }
