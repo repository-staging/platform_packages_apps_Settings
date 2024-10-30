@@ -91,6 +91,12 @@
             settings:controller=
                 "com.android.settings.sound.MediaControlsLockScreenPreferenceController" />
 
+        <Preference
+            android:key="clipboard_access"
+            android:title="@string/clipboard_access_title"
+            settings:controller="com.android.settings.ext.clipboard.ClipboardAccessPrefController"
+            settings:fragment="com.android.settings.ext.clipboard.ClipboardAccessSettings" />
+
         <SwitchPreferenceCompat
             android:key="privacy_auto_grant_OTHER_SENSORS_permission"
             android:title="@string/auto_grant_OTHER_SENSORS_permission_title"
