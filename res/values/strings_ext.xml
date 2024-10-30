@@ -208,4 +208,19 @@ Duress PIN works the same way duress password does."</string>
     <string name="alt_touchscreen_mode_confirm_message">Confirm that the touchscreen is working. Without confirmation, alternative touchscreen mode will be disabled after several seconds.</string>
     <string name="alt_touchscreen_mode_confirm_button">Confirm</string>
 
+    <string name="clipboard_access_title">Clipboard access</string>
+    <string name="cross_profile_clipboard_access_title">Cross-profile clipboard access</string>
+    <string name="cross_profile_clipboard_access_summary_on">Allow cross-profile access to future clipboard content updates.</string>
+    <string name="cross_profile_clipboard_access_summary_off">Only allow current user profile to access future clipboard content updates.</string>
+    <string name="cross_profile_clipboard_access_summary_footer_pref_text">
+"This setting controls access of clipboard content updates from current user across other profiles.
+
+By default, clipboard content updates are accessible to across other profiles,
+including from personal profile is accessible to private space profile, and vice-versa.
+
+Clipboard contents prior to disallowing cross-profile clipboard access remains accessible to other profiles,
+and doesn't disallow other profiles making their clipboard content accessible to current user.
+"
+    </string>
+
 </resources>
