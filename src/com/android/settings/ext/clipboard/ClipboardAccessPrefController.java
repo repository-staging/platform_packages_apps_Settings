@@ -2,6 +2,7 @@ package com.android.settings.ext.clipboard;
 
 import android.content.Context;
 import android.content.pm.UserInfo;
+import android.os.UserHandle;
 import android.os.UserManager;
 
 import com.android.settings.core.BasePreferenceController;
@@ -20,6 +21,10 @@ public class ClipboardAccessPrefController extends BasePreferenceController {
         UserManager userManager = Objects.requireNonNull(ctx.getSystemService(UserManager.class));
         UserInfo userInfo = userManager.getUserInfo(ctx.getUserId());
         if (userInfo == null) {
+            return CONDITIONALLY_UNAVAILABLE;
+        }
+
+        if (userInfo.id != UserHandle.USER_SYSTEM) {
             return CONDITIONALLY_UNAVAILABLE;
         }
 
