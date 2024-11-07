@@ -176,6 +176,14 @@ public class CredentialManagerPreferenceController extends BasePreferenceControl
             }
         }
 
+        if (prefCtrlHelper.delegateIface.isPrivateProfile()) {
+            UserHandle privateSpaceProfile =
+                    CredentialManagerPrefCtrlHelper.getPrivateSpaceUserHandle(mContext);
+            if (privateSpaceProfile == null) {
+                return CONDITIONALLY_UNAVAILABLE;
+            }
+        }
+
         return AVAILABLE;
     }
 
@@ -209,6 +217,7 @@ public class CredentialManagerPreferenceController extends BasePreferenceControl
         mIsWorkProfile = isWorkProfile;
 
         setDelegate(delegate);
+        setPrefCtrlHelper(CredentialManagerPrefCtrlHelper.createInstanceFromFragment(fragment));
         verifyReceivedIntent(launchIntent);
 
         // Recreate the content observers because the user might have changed.
@@ -218,6 +227,13 @@ public class CredentialManagerPreferenceController extends BasePreferenceControl
         // When we set the mIsWorkProfile above we should try and force a refresh
         // so we can get the correct data.
         delegate.forceDelegateRefresh();
+    }
+
+    private CredentialManagerPrefCtrlHelper prefCtrlHelper =
+            CredentialManagerPrefCtrlHelper.createInstance(null);
+
+    private void setPrefCtrlHelper(@NonNull CredentialManagerPrefCtrlHelper prefCtrlHelper) {
+        this.prefCtrlHelper = prefCtrlHelper;
     }
 
     /**
@@ -892,6 +908,15 @@ public class CredentialManagerPreferenceController extends BasePreferenceControl
                 return workProfile.getIdentifier();
             }
         }
+
+        if (prefCtrlHelper.delegateIface.isPrivateProfile()) {
+            UserHandle privateSpaceProfile =
+                    CredentialManagerPrefCtrlHelper.getPrivateSpaceUserHandle(mContext);
+            if (privateSpaceProfile != null) {
+                return privateSpaceProfile.getIdentifier();
+            }
+        }
+
         return UserHandle.myUserId();
     }
 
