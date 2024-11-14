@@ -12,7 +12,6 @@ import com.android.settings.applications.appinfo.AppInfoDashboardFragment
 import com.android.settings.spa.SpaActivity.Companion.startSpaActivity
 import com.android.settings.spa.app.appinfo.AppInfoSettingsProvider
 import com.android.settings.spa.app.appinfo.AswAppListPageProvider
-import com.android.settingslib.spaprivileged.model.app.userId
 import kotlin.reflect.KClass
 
 abstract class AswAdapter<T : AppSwitch> {
@@ -27,7 +26,7 @@ abstract class AswAdapter<T : AppSwitch> {
     fun getPreferenceSummary(ctx: Context, appInfo: ApplicationInfo): CharSequence {
         val asw = getAppSwitch()
         val si = AppSwitch.StateInfo()
-        val userId = appInfo.userId
+        val userId = ctx.userId
         val isOn = asw.get(ctx, userId, appInfo, GosPackageState.get(appInfo.packageName, userId), si)
         return if (si.isUsingDefaultValue) {
             getDefaultTitle(ctx, isOn)
