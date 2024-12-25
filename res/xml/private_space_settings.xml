@@ -67,6 +67,12 @@
         android:title="@string/private_space_category_system">
 
         <Preference
+            android:key="private_space_cross_profile_clipboard_access_title"
+            android:title="@string/cross_profile_clipboard_access_title"
+            settings:controller="com.android.settings.privatespace.users.PsCrossProfileClipboardAccessPrefCtrl"
+            settings:searchable="false" />
+
+        <Preference
             android:key="copy_app_install_pref"
             android:title="@string/user_app_install"
             settings:controller="com.android.settings.privatespace.users.PrivateSpaceUserAppInstallSettingsPrefController"

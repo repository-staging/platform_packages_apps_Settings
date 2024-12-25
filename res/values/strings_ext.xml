@@ -208,4 +208,18 @@ Duress PIN works the same way duress password does."</string>
     <string name="alt_touchscreen_mode_confirm_message">Confirm that the touchscreen is working. Without confirmation, alternative touchscreen mode will be disabled after several seconds.</string>
     <string name="alt_touchscreen_mode_confirm_button">Confirm</string>
 
+    <string name="cross_profile_clipboard_access_title">Cross profile clipboard access</string>
+    <string name="cross_profile_clipboard_access_allow_title">Allowed</string>
+    <string name="cross_profile_clipboard_access_allow_summary">Allow cross-profile clipboard access import and export from and to other profiles.</string>
+    <string name="cross_profile_clipboard_access_import_only_title">Import only</string>
+    <string name="cross_profile_clipboard_access_import_only_summary">Allow cross-profile clipboard access from other profiles imported to current profiles.</string>
+    <string name="cross_profile_clipboard_access_export_only_title">Export only</string>
+    <string name="cross_profile_clipboard_access_export_only_summary">Allow cross-profile clipboard access from current profile exported to other profiles.</string>
+    <string name="cross_profile_clipboard_access_disallow_title">Disallowed</string>
+    <string name="cross_profile_clipboard_access_disallow_summary">Disallow cross-profile clipboard access import and export from and to other profiles.</string>
+    <string name="cross_profile_clipboard_access_footer">This setting provides option for users to allow or disallow importing clipboard from other profiles
+         and/or exporting clipboard to other profiles, such as from Private Space to parent user or vice-versa.
+         Clipboard contents exported to other profiles or imported from other profiles prior to selecting a
+         stricter options remain accessible until clipboard contents have been updated.</string>
+
 </resources>
