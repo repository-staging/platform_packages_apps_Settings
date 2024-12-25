@@ -77,7 +77,7 @@ public abstract class AbstractListPreferenceController extends BasePreferenceCon
         updatePreference();
     }
 
-    void updatePreference() {
+    protected void updatePreference() {
         if (fragment != null) {
             fragment.updateCandidates();
         }
