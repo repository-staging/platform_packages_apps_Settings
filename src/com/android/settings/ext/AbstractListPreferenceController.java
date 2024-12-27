@@ -112,6 +112,10 @@ public abstract class AbstractListPreferenceController extends BasePreferenceCon
             add(context.getText(title), context.getText(summary), value);
         }
 
+        public void add(@StringRes int title, @StringRes int summary, int value, boolean enabled) {
+            add(context.getText(title), context.getText(summary), value, enabled);
+        }
+
         public void add(int duration, TimeUnit timeUnit) {
             long durationMillis = timeUnit.toMillis(duration);
             if (durationMillis > Integer.MAX_VALUE) {
