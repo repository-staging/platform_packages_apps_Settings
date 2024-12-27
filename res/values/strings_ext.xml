@@ -222,4 +222,8 @@ Duress PIN works the same way duress password does."</string>
          Clipboard contents exported to other profiles or imported from other profiles prior to selecting a
          stricter options remain accessible until primary clipboard content has been updated.</string>
 
+    <string name="stop_user_with_delayed_storage_locking_title">Stop user with delayed storage locking</string>
+    <string name="stop_user_with_delayed_storage_locking_allow_summary">Allow the current user profile to retain its storage encryptions keys after it is stopped, to allow weaker authentication methods such as biometrics to unlock it, such as in Private space.</string>
+    <string name="stop_user_with_delayed_storage_locking_disallow_summary">Always evict the storage encryption keys after the current user profile is locked, always requirng strong authentication such as PIN or password once restarted.</string>
+
 </resources>

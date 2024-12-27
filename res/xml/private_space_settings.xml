@@ -66,6 +66,14 @@
     <PreferenceCategory
         android:title="@string/private_space_category_system">
 
+        <SwitchPreference
+            android:key="stop_user_with_delayed_storage_locking_title"
+            android:title="@string/stop_user_with_delayed_storage_locking_title"
+            android:summaryOn="@string/stop_user_with_delayed_storage_locking_allow_summary"
+            android:summaryOff="@string/stop_user_with_delayed_storage_locking_disallow_summary"
+            settings:controller="com.android.settings.privatespace.users.PsStopUserWithDelayedLockingPrefCtrl"
+            settings:searchable="false" />
+
         <Preference
             android:key="private_space_cross_profile_clipboard_access_title"
             android:title="@string/cross_profile_clipboard_access_title"
