@@ -46,6 +46,10 @@
             android:icon="@drawable/ic_apps"
             android:title="@string/user_copy_apps_menu_title" />
     <com.android.settingslib.RestrictedPreference
+        android:key="profile_list"
+        android:icon="@drawable/ic_person"
+        android:title="@string/user_profile_list_settings" />
+    <com.android.settingslib.RestrictedPreference
             android:key="remove_user"
             android:icon="@drawable/ic_delete"
             settings:userRestriction="no_remove_user"

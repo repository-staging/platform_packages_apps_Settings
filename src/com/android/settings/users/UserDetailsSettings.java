@@ -120,6 +120,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
     TwoStatePreference mGrantAdminPref;
     Preference mAppsInstallsPref;
     private SwitchPreferenceCompat mRunInBackgroundPref;
+    Preference mProfileListPref;
 
     @VisibleForTesting
     /** The user being studied (not the user doing the studying). */
@@ -206,6 +207,9 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
             return true;
         } else if (preference == mAppsInstallsPref) {
             UserAppsInstallSettings.launch(preference, mUserInfo.id);
+            return true;
+        } else if (preference == mProfileListPref) {
+            UserProfilesListSettings.launch(preference.getContext(), mUserInfo.id);
             return true;
         }
         return false;
@@ -399,6 +403,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
         mGrantAdminPref.setChecked(mUserInfo.isAdmin());
         mAppsInstallsPref = findPreference(KEY_APP_INSTALLS);
         mRunInBackgroundPref = findPreference(KEY_RUN_IN_BACKGROUND);
+        mProfileListPref = findPreference(UserProfilesListSettings.PREF_NAME);
 
         mSwitchUserPref.setVisible(mUserCaps.mUserSwitchingUiEnabled
                 && UserHandle.myUserId() != mUserInfo.id);
@@ -457,6 +462,7 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
             removePreference(KEY_APP_COPYING);
             removePreference(KEY_APP_INSTALLS);
             removePreference(KEY_RUN_IN_BACKGROUND);
+            removePreference(UserProfilesListSettings.PREF_NAME);
         } else {
             if (!Utils.isVoiceCapable(context)) { // no telephony
                 removePreference(KEY_ENABLE_TELEPHONY_CALLING);
@@ -500,6 +506,13 @@ public class UserDetailsSettings extends SettingsPreferenceFragment
             mAppAndContentAccessPref.setOnPreferenceClickListener(this);
             mAppCopyingPref.setOnPreferenceClickListener(this);
             mRunInBackgroundPref.setOnPreferenceChangeListener(this);
+            if (!mUserManager.isSystemUser()) {
+                removePreference(UserProfilesListSettings.PREF_NAME);
+            } else if (mUserManager.getProfiles(mUserInfo.id).size() <= 1) {
+                removePreference(UserProfilesListSettings.PREF_NAME);
+            } else {
+                mProfileListPref.setOnPreferenceClickListener(this);
+            }
         }
     }
 

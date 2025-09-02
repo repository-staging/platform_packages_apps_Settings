@@ -118,4 +118,10 @@
             android:summary="@string/user_settings_send_censored_notifications_to_current_summary"
             android:order="106"/>
 
+    <com.android.settingslib.RestrictedPreference
+        android:key="profile_list"
+        android:icon="@drawable/ic_person"
+        android:title="@string/user_profile_list_settings"
+        android:order="999" />
+
 </PreferenceScreen>

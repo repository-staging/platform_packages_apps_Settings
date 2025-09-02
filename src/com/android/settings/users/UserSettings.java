@@ -223,6 +223,7 @@ public class UserSettings extends SettingsPreferenceFragment
     RestrictedPreference mAddUser;
     @VisibleForTesting
     RestrictedPreference mAddSupervisedUser;
+    Preference mProfileListPref;
     @VisibleForTesting
     SparseArray<Bitmap> mUserIcons = new SparseArray<>();
     private int mRemovingUserId = -1;
@@ -432,6 +433,15 @@ public class UserSettings extends SettingsPreferenceFragment
         setConfigSupervisedUserCreationPackage();
         mAddSupervisedUser = findPreference(KEY_ADD_SUPERVISED_USER);
         mAddSupervisedUser.setOnPreferenceClickListener(this);
+
+        mProfileListPref = findPreference(UserProfilesListSettings.PREF_NAME);
+        if (myUserId != UserHandle.USER_SYSTEM) {
+            removePreference(UserProfilesListSettings.PREF_NAME);
+        } else  if (mUserManager.getProfiles(myUserId).size() <= 1) {
+            removePreference(UserProfilesListSettings.PREF_NAME);
+        } else {
+            mProfileListPref.setOnPreferenceClickListener(this);
+        }
 
         mAddUserSettingsCategory = findPreference(KEY_ADD_USER_SETTINGS_CATEGORY);
 
@@ -1841,6 +1851,9 @@ public class UserSettings extends SettingsPreferenceFragment
         } else if (pref == mAddGuest) {
             mAddGuest.setEnabled(false); // prevent multiple tap issue
             onAddGuestClicked();
+            return true;
+        } else if (pref == mProfileListPref) {
+            UserProfilesListSettings.launch(pref.getContext(), UserHandle.myUserId());
             return true;
         }
         return false;
