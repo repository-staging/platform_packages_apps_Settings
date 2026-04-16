@@ -17,7 +17,7 @@ import com.android.settings.core.BasePreferenceController;
 import com.android.settings.core.SubSettingLauncher;
 import com.android.settings.privatespace.PrivateSpaceMaintainer;
 import com.android.settings.users.AppCopyFragmentHelperExt;
-import com.android.settings.users.UserRestrictions;
+import com.android.settings.users.UserRestrictionsFetcher;
 
 public class PrivateSpaceAppCopyPrefController extends BasePreferenceController {
 
@@ -49,19 +49,19 @@ public class PrivateSpaceAppCopyPrefController extends BasePreferenceController 
     public void updateState(Preference preference) {
         super.updateState(preference);
         preference.setVisible(isAvailable());
-        UserRestrictions userRestrictions = getUserRestrictions();
+        UserRestrictionsFetcher userRestrictions = getUserRestrictionsFetcher();
         if (userRestrictions != null) {
             preference.setEnabled(!userRestrictions.isSet(UserManager.DISALLOW_INSTALL_APPS));
         }
     }
 
-    private UserRestrictions getUserRestrictions() {
+    private UserRestrictionsFetcher getUserRestrictionsFetcher() {
         UserHandle privateSpaceUserHandle = privateSpaceMaintainer.getPrivateProfileHandle();
         if (privateSpaceUserHandle == null) {
             return null;
         }
 
-        return UserRestrictions.createInstance(mContext, privateSpaceUserHandle.getIdentifier());
+        return UserRestrictionsFetcher.create(mContext, privateSpaceUserHandle.getIdentifier());
     }
 
     @Override
